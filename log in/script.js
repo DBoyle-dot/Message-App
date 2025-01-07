@@ -1,37 +1,39 @@
-const btn = document.getElementById("btn");
-const input = document.getElementById("input")
+const loginInput = document.getElementById("login-input");
+const loginBtn = document.getElementById("login-btn");
+const passwordLogin = document.getElementById("password-login");
 allCookies = document.cookie;
 
-if (document.cookie) {
-    window.location.href = "/message"
-}
-
-async function postName() {
-    if (input.value) {
-        const response = await fetch("/api/signup", {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: 
-                JSON.stringify({ input: `${input.value}`})
-        })
-        const result = await response.json()
-        console.log(result)
-        if (result.data) {
-           window.location.href = "http://localhost:5500/message"
-           const date = new Date()
-           date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
-           const expires = date.toUTCString()
-           document.cookie = `id=THIS_IS_YOUR_COOKIE_LOGIN_DO_NOT_SHARE_WITH_ANYONE__${result.data.id}; SameSite=none; Secure; expires=${expires}`
-        if (result.data.error) {
-            console.log(result.data.error)
-        }
-        if (document.cookie.includes("id")) {
-            window.location.href = "/message"
-        }
-    }
+async function logIn() { 
+    try { 
+        const response = await fetch("/api/login/", { 
+            method: "POST", 
+            headers: { 
+                "content-type": "application/json" 
+            }, 
+            body: JSON.stringify({ name: `${loginInput.value}` }) 
+        }); 
+        if (!response.ok) { 
+            throw new Error('Network response was not ok'); 
+        } 
+        const result = await response.json(); 
+        console.log(result); 
+        if (result.data && result.data.name) { 
+            window.location.href = "../message/index.html"; 
+        } else { 
+            console.log("Login error: Name not found in the response"); 
+        } 
+    } catch (error) { 
+        console.error("Error during login:", error); 
     } 
 }
 
-btn.addEventListener("click", postName)
+function checkCookie(name) {
+    const cookies = document.cookie.split('; ');
+    const cookie = cookies.find(cookie => cookie.startsWith(name))
+    if (cookie) {
+      return cookie.split('=')[1];
+    }
+    return null;
+}
+
+loginBtn.addEventListener("click", logIn)
