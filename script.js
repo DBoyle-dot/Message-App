@@ -19,7 +19,7 @@ async function postName() {
         const result = await response.json()
         console.log(result)
         if (result.data) {
-           window.location.href = "http://localhost:5500/message"
+           window.location.href = "/message"
            const date = new Date()
            date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
            const expires = date.toUTCString()
