@@ -1,7 +1,7 @@
 const express = require('express')
 const http = require('http')
 const app = express();
-const port = 5500;
+const port = 25565;
 const server = http.createServer(app); 
 const { Server } = require('socket.io'); 
 const io = new Server(server);
@@ -143,7 +143,7 @@ function cookie() {
 
 
 server.listen(port, () => { 
-    console.log(`listening on port ${port}, http://localhost:${port}`); 
+    console.log(`listening on port ${port}, http://dotgames.online`); 
 }); 
 
 io.on('connection', (socket) => { 
