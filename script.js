@@ -19,7 +19,7 @@ async function postName() {
         const result = await response.json()
         console.log(result)
         if (result.data) {
-           window.location.href = "/message"
+           window.location.href = "/message/"
            const date = new Date()
            date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
            const expires = date.toUTCString()
@@ -28,7 +28,7 @@ async function postName() {
             console.log(result.data.error)
         }
         if (document.cookie.includes("id")) {
-            window.location.href = "/message"
+            window.location.href = "/message/"
         }
     }
     } 
